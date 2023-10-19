@@ -6,7 +6,7 @@
 /*   By: iszitoun <iszitoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 02:08:33 by iszitoun          #+#    #+#             */
-/*   Updated: 2023/10/19 02:44:54 by iszitoun         ###   ########.fr       */
+/*   Updated: 2023/10/19 22:34:33 by iszitoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	dir_var_init(t_dir *dir)
 
 void	allocat_dir(t_main *m)
 {
-	m->p->north_path = malloc(sizeof(char) * 100);
-	m->p->south_path = malloc(sizeof(char) * 100);
-	m->p->west_path = malloc(sizeof(char) * 100);
-	m->p->east_path = malloc(sizeof(char) * 100);
+	m->p->north_path = my_malloc(sizeof(char) * 100);
+	m->p->south_path = my_malloc(sizeof(char) * 100);
+	m->p->west_path = my_malloc(sizeof(char) * 100);
+	m->p->east_path = my_malloc(sizeof(char) * 100);
 }
 
 void	call_dir(t_main *m, t_dir *dir)
@@ -42,8 +42,8 @@ char	*dir_path(t_main *m)
 {
 	t_dir	*dir;
 
-	dir = malloc(sizeof(t_dir));
-	m->p = malloc(sizeof(t_paths));
+	dir = my_malloc(sizeof(t_dir));
+	m->p = my_malloc(sizeof(t_paths));
 	allocat_dir(m);
 	dir_var_init(dir);
 	while (m->map[dir->i] && dir->i < map_frst_line(m))

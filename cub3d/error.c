@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deimos <deimos@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iszitoun <iszitoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:37:38 by iszitoun          #+#    #+#             */
-/*   Updated: 2023/09/08 18:42:02 by deimos           ###   ########.fr       */
+/*   Updated: 2023/10/19 18:55:38 by iszitoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,34 +40,4 @@ void	void_next_floor(void)
 {
 	ft_printf("ERROR:\n Void inside the map!\n");
 	exit(1);
-}
-
-void	sides_error(void)
-{
-	ft_printf("\nERROR: Check your map's *VERTICAL WALLS* !!!\n");
-	exit(1);
-}
-
-void	path_error(void)
-{
-	ft_printf("ERROR:\n \tPath is invalid or Missing!\n");
-	exit(1);
-}
-
-void	color_error(void)
-{
-	ft_printf("ERROR:\n \tColor is invalid or Missing!\n");
-	exit (1);
-}
-
-void	empty_line_inside(void)
-{
-	ft_printf("ERROR:\n \tEmpty line inside map!\n");
-	exit (1);
-}
-
-void	undefined_line_error(void)
-{
-	ft_printf("ERROR:\n \tUndefined line on map file!\n");
-	exit (1);
 }

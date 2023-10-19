@@ -6,7 +6,7 @@
 /*   By: iszitoun <iszitoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:35:27 by iszitoun          #+#    #+#             */
-/*   Updated: 2023/10/19 02:45:07 by iszitoun         ###   ########.fr       */
+/*   Updated: 2023/10/19 19:51:01 by iszitoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ void	items_check(t_main *m)
 	map_check_last(m);
 	around_floor(m);
 	invalid_item(m);
-	if (((dir_path(m) == NULL) && m->p->count_paths != 4) || (!m->p->north_path || !m->p->south_path || !m->p->west_path || !m->p->east_path))
+	if (((dir_path(m) == NULL) && m->p->count_paths != 4) || (!m->p->north_path
+			||!m->p->south_path || !m->p->west_path || !m->p->east_path))
 		path_error();
-	else if((floor_ceiling(m) == NULL && m->c->count_rgb != 2) || merge_floor_color(m) == -1 || merge_ceiling_color(m) == -1)
+	else if ((floor_ceiling(m) == NULL && m->c->count_rgb != 2)
+		|| merge_floor_color(m) == -1 || merge_ceiling_color(m) == -1)
 		color_error();
 	p_check(m);
-	printf("%s\n", m->p->north_path);
 }
 
 int	line_count(t_main *m)
@@ -46,6 +47,7 @@ int	line_count(t_main *m)
 int	line_len(char *s)
 {
 	int	j;
+
 	j = 0;
 	if (!s)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: iszitoun <iszitoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:46:59 by iszitoun          #+#    #+#             */
-/*   Updated: 2023/10/19 02:19:57 by iszitoun         ###   ########.fr       */
+/*   Updated: 2023/10/19 19:55:57 by iszitoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	check_sides(t_main *m)
 		j = 0;
 		while (white_space(m->map[i][j]))
 			j++;
-		if ((m->map[i][j] != '1')|| m->map[i][line_len(m->map[i]) - 1] != '1')
+		if ((m->map[i][j] != '1') || m->map[i][line_len(m->map[i]) - 1] != '1')
 			sides_error();
 		i++;
 	}
@@ -39,8 +39,8 @@ int	white_space(char c)
 
 void	around_floor(t_main *m)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = map_frst_line(m);
 	j = 1;
@@ -49,9 +49,12 @@ void	around_floor(t_main *m)
 		j = 1;
 		while (m->map[i][j])
 		{
-			if ((m->map[i][j] == '0' || m->map[i][j] == 'N' ||  m->map[i][j] == 'W' || m->map[i][j] == 'S' || m->map[i][j] == 'E')
-				&& (white_space(m->map[i + 1][j]) || white_space(m->map[i
-						- 1][j]) || white_space(m->map[i][j + 1]) || white_space(m->map[i][j - 1])))
+			if ((m->map[i][j] == '0' || m->map[i][j] == 'N'
+				|| m->map[i][j] == 'W' || m->map[i][j] == 'S'
+				|| m->map[i][j] == 'E') && (white_space(m->map[i + 1][j])
+				|| white_space(m->map[i - 1][j])
+				|| white_space(m->map[i][j + 1])
+				|| white_space(m->map[i][j - 1])))
 				void_next_floor();
 			j++;
 		}
@@ -77,7 +80,7 @@ void	line_undef(t_main *m)
 			if (!white_space(m->map[i][j]))
 			{
 				count++;
-				break;
+				break ;
 			}
 			j++;
 		}

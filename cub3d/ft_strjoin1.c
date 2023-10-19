@@ -6,7 +6,7 @@
 /*   By: iszitoun <iszitoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:30:41 by iszitoun          #+#    #+#             */
-/*   Updated: 2023/08/02 18:47:50 by iszitoun         ###   ########.fr       */
+/*   Updated: 2023/10/19 22:34:33 by iszitoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ char	*ft_strjoin1(char *left_str, char *buff)
 
 	if (!left_str)
 	{
-		left_str = (char *)malloc(1 * sizeof(char));
+		left_str = (char *)my_malloc(1 * sizeof(char));
 		left_str[0] = '\0';
 	}
 	if (!left_str || !buff)
 		return (NULL);
-	str = malloc(sizeof(char) * ((ft_strlen1(left_str) + ft_strlen1(buff))
+	str = my_malloc(sizeof(char) * ((ft_strlen1(left_str) + ft_strlen1(buff))
 				+ 1));
 	if (str == NULL)
 		return (free(left_str), NULL);

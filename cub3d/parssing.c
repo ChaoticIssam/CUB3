@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parssing.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deimos <deimos@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iszitoun <iszitoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:22:38 by iszitoun          #+#    #+#             */
-/*   Updated: 2023/09/24 18:14:16 by deimos           ###   ########.fr       */
+/*   Updated: 2023/10/19 18:57:40 by iszitoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	map_first_line(t_main *m)
 		while (m->map[i][j])
 		{
 			if (m->map[i][j] == 'C')
-				return(i);
+				return (i);
 			j++;
 		}
 		i++;
@@ -81,7 +81,8 @@ int	map_frst_line(t_main *m)
 			j++;
 		if (m->map[i][j] == '1' || m->map[i][j] == 32 || m->map[i][j] == '\t')
 		{
-			while ((m->map[i][j] == '1' || m->map[i][j] == 32 || m->map[i][j] == '\t') && m->map[i][j])
+			while ((m->map[i][j] == '1' || m->map[i][j] == 32 ||
+				m->map[i][j] == '\t') && m->map[i][j])
 			{
 				j++;
 				if (!m->map[i][j] || m->map[i][j] == '\n')
@@ -92,26 +93,4 @@ int	map_frst_line(t_main *m)
 		i++;
 	}
 	return (0);
-}
-
-void	check_check(t_main *m)
-{
-	if (m->fd == -1)
-	{
-		perror("error");
-		exit(1);
-	}
-	m->str = NULL;
-	m->str = ft_read_str(m->fd, m->str);
-}
-
-void	check_name(char *name)
-{
-	int	i;
-
-	i = 0;
-	while (name[i] && name[i] != '.')
-		i++;
-	if (ft_strncmp(&name[i], ".cub") != 0)
-		arg_error();
 }

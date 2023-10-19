@@ -6,7 +6,7 @@
 /*   By: iszitoun <iszitoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:18:20 by iszitoun          #+#    #+#             */
-/*   Updated: 2023/10/19 01:51:54 by iszitoun         ###   ########.fr       */
+/*   Updated: 2023/10/19 22:36:48 by iszitoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 #  define BUFFER_SIZE 1000000
 # endif
 
+typedef struct s_mal
+{
+	int					pos;
+	uintptr_t			*ptr;
+	int					len;
+}						t_mal;
 typedef struct s_dir
 {
 	int			i;
@@ -68,6 +74,50 @@ typedef struct s_main
 	t_paths		*p;
 	t_colors	*c;
 }				t_main;
+
+typedef struct s_rgb
+{
+	int	i;
+	int	j;
+	int	f;
+	int	c;
+}				t_rgb;
+
+typedef struct s_fc
+{
+	int		i;
+	int		j;
+	int		count;
+	int		count1;
+	int		lock;
+	char	*floor;
+}				t_fc;
+
+typedef struct s_fc1
+{
+	int	i;
+	int	r;
+	int	g;
+	int	b;
+}				t_fc1;
+
+typedef struct s_cc
+{
+	int		i;
+	int		j;
+	int		count;
+	int		count1;
+	int		lock;
+	char	*ceiling;
+}				t_cc;
+
+typedef struct s_cc1
+{
+	int	i;
+	int	r;
+	int	g;
+	int	b;
+}				t_cc1;
 
 void			check_name(char *name);
 void			new_line_inside(t_main *m);
@@ -125,8 +175,32 @@ void			looking_left(t_main *m);
 void			looking_up(t_main *m);
 void			looking_down(t_main *m);
 
+void			*my_malloc(size_t size);
+t_mal			*head(void);
+int				get_available_pos(void);
+void			ft_memset1(void *pointer, int c, size_t len);
+void			*ft_memcpy1(void *destination, void *source, size_t len);
+
 char			*floor_ceiling(t_main *m);
 int				merge_floor_color(t_main *m);
 int				merge_ceiling_color(t_main *m);
+
+void			fill_floor_f(t_fc *f, char *str, char *floor);
+void			init_var_fcf(t_fc	*f, char *str);
+
+void			fc_skip(t_main *m, t_fc1 *f);
+int				fc_first(t_main *m, t_fc1 *f);
+int				fc_second(t_main *m, t_fc1 *f);
+int				fc_third(t_main *m, t_fc1 *f);
+int				fc_do_all(t_main *m, t_fc1 *f);
+
+void			fill_ceiling_f(t_cc *f, char *str, char *ceiling);
+void			init_var_ccf(t_cc	*f, char *str);
+
+void			cc_skip(t_main *m, t_cc1 *f);
+int				cc_first(t_main *m, t_cc1 *f);
+int				cc_second(t_main *m, t_cc1 *f);
+int				cc_third(t_main *m, t_cc1 *f);
+int				cc_do_all(t_main *m, t_cc1 *f);
 
 #endif

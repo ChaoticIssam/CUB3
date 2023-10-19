@@ -5,6 +5,7 @@ RM = rm -f
 SOURCES = cub3d.c\
 			create_map.c\
 			error.c\
+			error1.c\
 			ft_strjoin1.c\
 			direction_paths.c\
 			direction_paths_utils.c\
@@ -12,10 +13,16 @@ SOURCES = cub3d.c\
 			parssing1.c\
 			parssing2.c\
 			parssing3.c\
+			my_malloc.c\
+			my_malloc_utils.c\
 			player_images.c\
 			put_image.c\
 			read_map.c\
 			rgb.c\
+			rgb1.c\
+			rgb1_1.c\
+			rgb2.c\
+			rgb2_2.c\
 			wasd.c\
 
 LIBFT_OB = libft/libft.a

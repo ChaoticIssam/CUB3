@@ -6,7 +6,7 @@
 /*   By: iszitoun <iszitoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:30:41 by iszitoun          #+#    #+#             */
-/*   Updated: 2023/10/19 01:42:05 by iszitoun         ###   ########.fr       */
+/*   Updated: 2023/10/19 22:44:50 by iszitoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <stdint.h>
+# include "../cub3d.h"
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);

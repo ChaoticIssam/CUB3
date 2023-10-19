@@ -6,314 +6,85 @@
 /*   By: iszitoun <iszitoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:03:19 by iszitoun          #+#    #+#             */
-/*   Updated: 2023/10/19 01:41:38 by iszitoun         ###   ########.fr       */
+/*   Updated: 2023/10/19 22:34:33 by iszitoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	init_vars_rgb(t_rgb	*r, t_main *m)
+{
+	r->i = 4;
+	r->j = 0;
+	r->f = 0;
+	r->c = 0;
+	m->c = my_malloc(sizeof(t_colors));
+	m->c->ceiling_color = my_malloc(sizeof(char) * 100);
+	m->c->floor_color = my_malloc(sizeof(char) * 100);
+}
+
+void	fill_floor_rgb(t_main *m, t_rgb *r)
+{
+	r->j++;
+	while (m->map[r->i][r->j] && (m->map[r->i][r->j] == ' '
+			|| m->map[r->i][r->j] == '\t'))
+		r->j++;
+	while (m->map[r->i][r->j] && m->map[r->i][r->j] != '\n')
+	{
+		m->c->floor_color[r->f] = m->map[r->i][r->j];
+		r->f++;
+		r->j++;
+	}
+	m->c->floor_color[r->f] = '\0';
+	m->c->count_rgb++;
+}
+
+void	fill_ceiling_rgb(t_main *m, t_rgb *r)
+{
+	r->j++;
+	while (m->map[r->i][r->j] && (m->map[r->i][r->j] == ' '
+			|| m->map[r->i][r->j] == '\t'))
+		r->j++;
+	while (m->map[r->i][r->j] && m->map[r->i][r->j] != '\n')
+	{
+		m->c->ceiling_color[r->c] = m->map[r->i][r->j];
+		r->c++;
+		r->j++;
+	}
+	m->c->ceiling_color[r->c] = '\0';
+	m->c->count_rgb++;
+}
+
+void	first_rgb(t_main *m, t_rgb *r)
+{
+	r->j = 0;
+	while (m->map[r->i][r->j] && (m->map[r->i][r->j] == ' '
+		|| m->map[r->i][r->j] == '\t'))
+	{
+		r->j++;
+		if (m->map[r->i][r->j] == '\n')
+			r->i++;
+		if (m->map[r->i][r->j] == 'F')
+			fill_floor_rgb(m, r);
+		else if (m->map[r->i][r->j] == 'C')
+			fill_ceiling_rgb(m, r);
+	}
+}
+
 char	*floor_ceiling(t_main *m)
 {
-	int	i;
-	int	j;
-	int	f;
-	int	c;
+	t_rgb	*r;
 
-	i = 4;
-	j = 0;
-	f = 0;
-	c = 0;
-	m->c = malloc(sizeof(t_colors));
-	m->c->ceiling_color = malloc(sizeof(char) * 100);
-	m->c->floor_color = malloc(sizeof(char) * 100);
-	while (m->map[i] && i < map_frst_line(m))
+	r = my_malloc(sizeof(t_rgb));
+	init_vars_rgb(r, m);
+	while (m->map[r->i] && r->i < map_frst_line(m))
 	{
-		j = 0;
-		while (m->map[i][j] && (m->map[i][j] == ' ' || m->map[i][j] == '\t'))
-		{
-			j++;
-			if (m->map[i][j] == '\n')
-				i++;
-			if (m->map[i][j] == 'F')
-			{
-				j++;
-				while (m->map[i][j] && (m->map[i][j] == ' '
-						|| m->map[i][j] == '\t'))
-					j++;
-				while (m->map[i][j] && m->map[i][j] != '\n')
-				{
-					m->c->floor_color[f] = m->map[i][j];
-					f++;
-					j++;
-				}
-				m->c->floor_color[f] = '\0';
-				m->c->count_rgb++;
-			}
-			else if (m->map[i][j] == 'C')
-			{
-				j++;
-				while (m->map[i][j] && (m->map[i][j] == ' '
-						|| m->map[i][j] == '\t'))
-					j++;
-				while (m->map[i][j] && m->map[i][j] != '\n')
-				{
-					m->c->ceiling_color[c] = m->map[i][j];
-					c++;
-					j++;
-				}
-				m->c->ceiling_color[c] = '\0';
-				m->c->count_rgb++;
-			}
-		}
-		if (m->map[i][j] == 'F')
-		{
-			j++;
-			while (m->map[i][j] && (m->map[i][j] == ' '
-					|| m->map[i][j] == '\t'))
-				j++;
-			while (m->map[i][j] && m->map[i][j] != '\n')
-			{
-				m->c->floor_color[f] = m->map[i][j];
-				f++;
-				j++;
-			}
-			m->c->floor_color[f] = '\0';
-			m->c->count_rgb++;
-		}
-		else if (m->map[i][j] == 'C')
-		{
-			j++;
-			while (m->map[i][j] && (m->map[i][j] == ' '
-					|| m->map[i][j] == '\t'))
-				j++;
-			while (m->map[i][j] && m->map[i][j] != '\n')
-			{
-				m->c->ceiling_color[c] = m->map[i][j];
-				c++;
-				j++;
-			}
-			m->c->ceiling_color[c] = '\0';
-			m->c->count_rgb++;
-		}
-		i++;
+		first_rgb(m, r);
+		if (m->map[r->i][r->j] == 'F')
+			fill_floor_rgb(m, r);
+		else if (m->map[r->i][r->j] == 'C')
+			fill_ceiling_rgb(m, r);
+		r->i++;
 	}
 	return (m->c->ceiling_color);
-}
-
-char *floor_color_final(char *str)
-{
-	int	i;
-	int	j;
-	int	count;
-	int	count1;
-	int	lock;
-	char *floor;
-
-	floor = malloc(sizeof(char) * ft_strlen(str));
-	i = 0;
-	j = 0;
-	lock = 0;
-	count = 0;
-	count1 = 0;
-	while (str[i])
-	{
-		lock = 0;
-		if (!ft_isdigit(str[i]) && str[i] != ' ' && str[i] != '\t' && str[i] != ',')
-			return (NULL);
-		while (str[i] == ' ' || str[i] == '\t')
-			i++;
-		while (ft_isdigit(str[i]))
-		{
-			if (lock == 0)
-			{
-				count++;
-				lock = 1;
-			}
-			floor[j] = str[i];
-			i++;
-			j++;
-		}
-		if (str[i] == ',' || str[i] == ' ' || str[i] == '\t')
-		{
-			if (str[i] == ',')
-				count1++;
-			floor[j] = str[i];
-			i++;
-			j++;
-		}
-	}
-	if (count != 3 || count1 != 2)
-		return (NULL);
-	floor[j] = '\0';
-	return (floor);
-}
-
-char *ceiling_color_final(char *str)
-{
-	int	i;
-	int	j;
-	int	count;
-	int	count1;
-	int	lock;
-	char *ceiling;
-
-	ceiling = malloc(sizeof(char) * ft_strlen(str));
-	i = 0;
-	j = 0;
-	lock = 0;
-	count = 0;
-	count1 = 0;
-	while (str[i])
-	{
-		lock = 0;
-		if (!ft_isdigit(str[i]) && str[i] != ' ' && str[i] != '\t' && str[i] != ',')
-			return (NULL);
-		while (str[i] == ' ' || str[i] == '\t')
-			i++;
-		while (ft_isdigit(str[i]))
-		{
-			if (lock == 0)
-			{
-				count++;
-				lock = 1;
-			}
-			ceiling[j] = str[i];
-			i++;
-			j++;
-		}
-		if (str[i] == ',' || str[i] == ' ' || str[i] == '\t')
-		{
-			if (str[i] == ',')
-				count1++;
-			ceiling[j] = str[i];
-			i++;
-			j++;
-		}
-	}
-	if (count != 3 || count1 != 2)
-		return (NULL);
-	ceiling[j] = '\0';
-	return (ceiling);
-}
-
-int	merge_floor_color(t_main *m)
-{
-	int	i;
-	int	r;
-	int	g;
-	int	b;
-
-	i = 0;
-	r = -1;
-	g = -1;
-	b = -1;
-	m->c->floor_color = floor_color_final(m->c->floor_color);
-	if (m->c->floor_color == NULL)
-		return(-1);
-	while (m->c->floor_color[i])
-	{
-		if (m->c->floor_color[i] >= '0' && m->c->floor_color[i] <= '9')
-		{
-			r = ft_atoi(&m->c->floor_color[i]);
-			while (m->c->floor_color[i] != ',')
-				i++;
-			if (!(m->c->floor_color[i + 1] >= '0' && m->c->floor_color[i + 1] <= '9') && m->c->floor_color[i
-				+ 1] != ' ' && m->c->floor_color[i + 1] != '\t' && m->c->floor_color[i + 1] != ',')
-					return (-1);
-		}
-		while (m->c->floor_color[i] == ' ' || m->c->floor_color[i] == '\t'
-			|| m->c->floor_color[i] == ',')
-			i++;
-		if (m->c->floor_color[i] >= '0' && m->c->floor_color[i] <= '9')
-		{
-			g = ft_atoi(&m->c->floor_color[i]);
-			while (m->c->floor_color[i] != ',')
-				i++;
-			if (!(m->c->floor_color[i + 1] >= '0' && m->c->floor_color[i + 1] <= '9') && m->c->floor_color[i
-				+ 1] != ' ' && m->c->floor_color[i + 1] != '\t' && m->c->floor_color[i + 1] != ',')
-					return (-1);
-		}
-		while (m->c->floor_color[i] == ' ' || m->c->floor_color[i] == '\t'
-			|| m->c->floor_color[i] == ',')
-			i++;
-		if (m->c->floor_color[i] >= '0' && m->c->floor_color[i] <= '9')
-		{
-			b = ft_atoi(&m->c->floor_color[i]);
-			while (ft_isdigit(m->c->floor_color[i]))
-				i++;
-			if (m->c->floor_color[i + 1] || !white_space(m->c->floor_color[i]))
-					return (-1);
-		}
-		if (i == ft_strlen2(ft_strtrim2(m->c->floor_color, " ", "\t")))
-		{
-			if (r == -1 || g == -1 || b == -1 || r >= 256 || g >= 256 || b >= 256)
-				return (-1);
-			return ((r << 16) | (g << 8) | b);
-		}
-		i++;
-	}
-	if (r == -1 || g == -1 || b == -1)
-		return (-1);
-	return (0);
-}
-
-int	merge_ceiling_color(t_main *m)
-{
-	int	i;
-	int	r;
-	int	g;
-	int	b;
-
-	i = 0;
-	r = -1;
-	g = -1;
-	b = -1;
-	m->c->ceiling_color = ceiling_color_final(m->c->ceiling_color);
-	if (!m->c->ceiling_color)
-		return (-1);
-	while (m->c->ceiling_color[i])
-	{
-		if (m->c->ceiling_color[i] >= '0' && m->c->ceiling_color[i] <= '9')
-		{
-			r = ft_atoi(&m->c->ceiling_color[i]);
-			while (m->c->ceiling_color[i] != ',')
-				i++;
-			if (!(m->c->ceiling_color[i + 1] >= '0' && m->c->ceiling_color[i + 1] <= '9') && m->c->ceiling_color[i
-				+ 1] != ' ' && m->c->ceiling_color[i + 1] != '\t' && m->c->ceiling_color[i + 1] != ',')
-				return (-1);
-		}
-		while (m->c->ceiling_color[i] == ' ' || m->c->ceiling_color[i] == '\t'
-			|| m->c->ceiling_color[i] == ',')
-			i++;
-		if (m->c->ceiling_color[i] >= '0' && m->c->ceiling_color[i] <= '9')
-		{
-			g = ft_atoi(&m->c->ceiling_color[i]);
-			while (m->c->ceiling_color[i] != ',')
-				i++;
-			if (!(m->c->ceiling_color[i + 1] >= '0' && m->c->ceiling_color[i + 1] <= '9') && m->c->ceiling_color[i
-				+ 1] != ' ' && m->c->ceiling_color[i + 1] != '\t' && m->c->ceiling_color[i + 1] != ',')
-					return (-1);
-		}
-		while (m->c->ceiling_color[i] == ' ' || m->c->ceiling_color[i] == '\t'
-			|| m->c->ceiling_color[i] == ',')
-			i++;
-		if (m->c->ceiling_color[i] >= '0' && m->c->ceiling_color[i] <= '9')
-		{
-			b = ft_atoi(&m->c->ceiling_color[i]);
-			while (ft_isdigit(m->c->ceiling_color[i]))
-				i++;
-			if (m->c->ceiling_color[i + 1] || !white_space(m->c->ceiling_color[i]))
-					return (-1);
-		}
-		if (i == ft_strlen2(ft_strtrim2(m->c->ceiling_color, " ", "\t")))
-		{
-			if (r == -1 || g == -1 || b == -1 || r >= 256 || g >= 256 || b >= 256)
-				return (-1);
-			return ((r << 16) | (g << 8) | b);
-		}
-		i++;
-	}
-	if (r == -1 || g == -1 || b == -1)
-		return (-1);
-	return (0);
 }
