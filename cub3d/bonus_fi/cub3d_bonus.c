@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: deimos <deimos@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mokhalil <mokhalil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 16:43:19 by mokhalil          #+#    #+#             */
-/*   Updated: 2023/10/26 11:46:42 by deimos           ###   ########.fr       */
+/*   Updated: 2023/10/21 00:47:32 by mokhalil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include "cub3d.h"
+#include "../cub3d.h"
 
 int	init_main(t_main *m, char **av)
 {
@@ -71,21 +71,6 @@ void	initialize_vars(t_map *map_v, t_main *m)
 	map_v->map = resize_map(map_v->map, map_v->tab);
 }
 
-void	init_game(t_map *map_v, t_data *img, t_mlx *mlx)
-{
-	mlx->mlx = mlx_init();
-	img->img = mlx_new_image(mlx->mlx,
-			map_v->windows_width, map_v->windows_height);
-	img->addr = mlx_get_data_addr(img->img,
-			&img->bits_per_pixel, &img->line_length, &img->endian);
-	mlx->win = mlx_new_window(mlx->mlx,
-			map_v->windows_width, map_v->windows_height, "la fac");
-	fetch_player_position(map_v);
-	initialize_player_angle(map_v);
-	map_v->mlx = mlx;
-	map_v->img = img;
-}
-
 int	main(int ac, char **av)
 {
 	t_map	map_v;
@@ -104,9 +89,11 @@ int	main(int ac, char **av)
 	init_game(&map_v, &img, &mlx);
 	loading_all_textures(&map_v, m);
 	render_all_component(&map_v);
+	map_v.prev_x = -1;
 	mlx_put_image_to_window(mlx.mlx, mlx.win, img.img, 0, 0);
 	mlx_hook(mlx.win, 2, 1L << 0, key_hook, &map_v);
 	mlx_hook(mlx.win, 3, 1L << 1, key_reales, &map_v);
+	mlx_hook(mlx.win, 6, (1L << 6), handle_mouse_move, &map_v);
 	mlx_loop_hook(map_v.mlx->mlx, update_map, &map_v);
 	mlx_loop(mlx.mlx);
 }

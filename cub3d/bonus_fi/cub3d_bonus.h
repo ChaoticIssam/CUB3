@@ -10,19 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
-# include "mlx/mlx.h"
+# include <mlx.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <math.h>
 # include <stdbool.h>
-# include "pars_cub/cub3d.h"
 # define MIN_ANGLE 0.0
 # define MAX_ANGLE 6.28318530718
-# include "pars_cub/Libft/libft.h"
-# include "pars_cub/ft_printf/ft_printf.h"
+# include "../pars_cub/Libft/libft.h"
+# include "../pars_cub/ft_printf/ft_printf.h"
 # include <fcntl.h>
 
 # ifndef BUFFER_SIZE
@@ -339,8 +338,4 @@ char			**resize_map(char **map, int *dimensions);
 void			fetch_player_position(t_map *map_v);
 void			loading_all_textures(t_map *map_v, t_main *m);
 void			copy_map(t_data *img, t_data *img2, t_map *map_v);
-int				handle_mouse_move(int x, int y, t_map *map_v);
-void			init_game(t_map *map_v, t_data *img, t_mlx *mlx);
-void			initialize_vars(t_map *map_v, t_main *m);
-void			initialize_player_angle(t_map *map_v);
 #endif

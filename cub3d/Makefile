@@ -1,53 +1,106 @@
 NAME = cub3D
+NAME_BONUS = cub3d_bonus
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
 RM = rm -f
 SOURCES = cub3d.c\
-			create_map.c\
-			error.c\
-			error1.c\
-			ft_strjoin1.c\
-			direction_paths.c\
-			direction_paths_utils.c\
-			parssing.c\
-			parssing1.c\
-			parssing2.c\
-			parssing3.c\
-			my_malloc.c\
-			my_malloc_utils.c\
-			player_images.c\
-			put_image.c\
-			read_map.c\
-			rgb.c\
-			rgb1.c\
-			rgb1_1.c\
-			rgb2.c\
-			rgb2_2.c\
-			wasd.c\
+			pars_cub/create_map.c\
+			pars_cub/error.c\
+			pars_cub/error1.c\
+			pars_cub/ft_strjoin1.c\
+			pars_cub/direction_paths.c\
+			pars_cub/direction_paths_utils.c\
+			pars_cub/parssing.c\
+			pars_cub/parssing1.c\
+			pars_cub/parssing2.c\
+			pars_cub/parssing3.c\
+			pars_cub/read_map.c\
+			pars_cub/my_malloc.c\
+			pars_cub/my_malloc_utils.c\
+			pars_cub/rgb.c\
+			pars_cub/rgb1.c\
+			pars_cub/rgb1_1.c\
+			pars_cub/rgb2.c\
+			pars_cub/rgb2_2.c\
+			moves.c\
+			horizontal_hit.c\
+			vertical_hit.c\
+			3d_textures.c\
+			all_component.c\
+			get_color.c\
+			get_map.c\
+			hook.c\
+			loading_textures.c\
 
-LIBFT_OB = libft/libft.a
-FT_PRINTF_OB = ft_printf/libftprintf.a
+BONUS = bonus_fi/cub3d_bonus.c\
+			bonus_fi/2d_map_bonus.c\
+			bonus_fi/all_component_bonus.c\
+			bonus_fi/cub3d_bonus_utils.c\
+			bonus_fi/loading_textures_bonus.c\
+			pars_cub/create_map.c\
+			pars_cub/error.c\
+			pars_cub/error1.c\
+			pars_cub/ft_strjoin1.c\
+			pars_cub/direction_paths.c\
+			pars_cub/direction_paths_utils.c\
+			pars_cub/parssing.c\
+			pars_cub/parssing1.c\
+			pars_cub/parssing2.c\
+			pars_cub/parssing3.c\
+			pars_cub/read_map.c\
+			pars_cub/my_malloc.c\
+			pars_cub/my_malloc_utils.c\
+			pars_cub/rgb.c\
+			pars_cub/rgb1.c\
+			pars_cub/rgb1_1.c\
+			pars_cub/rgb2.c\
+			pars_cub/rgb2_2.c\
+			moves.c\
+			horizontal_hit.c\
+			vertical_hit.c\
+			3d_textures.c\
+			get_color.c\
+			get_map.c\
+			hook.c\
 
+LIBFT_OB = pars_cub/Libft/libft.a\
+
+FT_PRINTF_OB = pars_cub/ft_printf/libftprintf.a\
+
+OBJECTS_BONUS = ${BONUS:.c=.o}
 OBJECTS = ${SOURCES:.c=.o}
 
-all: $(NAME)
+
+all : $(NAME) $(LIBFT_OB)
 
 $(NAME):	$(OBJECTS) $(LIBFT_OB)
-	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT_OB) $(FT_PRINTF_OB) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJECTS)  $(FT_PRINTF_OB) $(LIBFT_OB) -Ofast -O3 -I /Users/deimos/Downloads/minilibx_macos -g -L /Users/deimos/Downloads/minilibx_macos -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+
+bonus : $(NAME_BONUS) $(LIBFT_OB)
+$(NAME_BONUS):	$(OBJECTS_BONUS) $(LIBFT_OB)
+	$(CC) $(CFLAGS) $(OBJECTS_BONUS) $(FT_PRINTF_OB) $(LIBFT_OB) -Ofast -O3 -I /Users/deimos/Downloads/minilibx_macos -g -L /Users/deimos/Downloads/minilibx_macos -lmlx -framework OpenGL -framework AppKit -o $(NAME_BONUS)
 
 $(LIBFT_OB):
-	make all -C libft
-	make -C ./ft_printf
+	make all -C pars_cub/Libft
+	make -C pars_cub/ft_printf
 
 clean:
-	$(RM)	$(OBJECTS)
-	make clean -C libft
-	make clean -C ft_printf
+	$(RM) $(OBJECTS) $(OBJECTS_BONUS)
+	make clean -C pars_cub/Libft
+	make clean -C pars_cub/ft_printf
+
 fclean:	clean
 	$(RM) $(NAME)
-	make fclean -C libft
-	make fclean -C ft_printf
-re:clean fclean all
-	make re -C libft
-	make re -C ft_printf
+	$(RM) $(NAME_BONUS)
+	make fclean -C pars_cub/Libft
+	make fclean -C pars_cub/ft_printf
+
+re: clean fclean all
+	make re -C pars_cub/Libft
+	make re -C pars_cub/ft_printf
+
+re_bonus: clean fclean bonus
+	make re -C pars_cub/Libft
+	make re -C pars_cub/ft_printf
+
 .PHONY: all clean fclean re
